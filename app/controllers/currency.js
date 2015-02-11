@@ -43,8 +43,8 @@ exports.index = function(req, res) {
   if (bitstampRate === 0 || currentTime >= (timestamp + delay)) {
     timestamp = currentTime;
 
-    _request('http://api.cryptocoincharts.info/tradingPair/aur_usd', function(err, data) {
-      if (!err) bitstampRate = parseFloat(JSON.parse(data).price);
+    _request('https://www.cryptonator.com/api/ticker/aur-usd', function(err, data) {
+      if (!err) bitstampRate = parseFloat(JSON.parse(data)['ticker']['price']);
 
       res.jsonp({
         status: 200,
