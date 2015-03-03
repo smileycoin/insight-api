@@ -49,11 +49,11 @@ auroracoind must be running and must have finished downloading the blockchain **
 
   Then open a browser and go to:
 
-    http://localhost:3001
+    http://localhost:3000
 
   Please note that the app will need to sync its internal database
   with the blockchain state, which may take some time. You can check
-  sync progress at http://localhost:3001/api/sync.
+  sync progress at http://localhost:3000/api/sync.
 
 
 ## Configuration
@@ -104,7 +104,7 @@ non-standard location is used, it needs to be defined (see the Configuration sec
 As of June 2014, using `.dat` files the sync process takes 9 hrs.
 for livenet and 30 mins. for testnet.
 
-While synchronizing the blockchain, *insight-api* listens for new blocks and
+While synchronizing the blockchain, *<ins></ins>ight-api* listens for new blocks and
 transactions relayed by the auroracoind node. Those are also stored on *insight-api*'s database.
 In case *insight-api* is shutdown for a period of time, restarting it will trigger
 a partial (historic) synchronization of the blockchain. Depending on the size of
