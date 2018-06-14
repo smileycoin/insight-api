@@ -25,14 +25,14 @@ if (process.env.INSIGHT_NETWORK === 'livenet') {
   env = 'livenet';
   db = home;
   port = '3000';
-  b_port = '12341';
-  p2p_port = '12340';
+  b_port = '8332';
+  p2p_port = '11337';
 } else {
-  env = 'testnet';
-  db = home + '/testnet';
-  port = '3001';
-  b_port = '18332';
-  p2p_port = '18333';
+  env = 'livenet';
+  db = home;
+  port = '3000';
+  b_port = '8332';
+  p2p_port = '11337';
 }
 port = parseInt(process.env.INSIGHT_PORT) || port;
 
@@ -58,9 +58,9 @@ var isLinux = /^linux/.test(process.platform);
 if (!dataDir) {
   if (isWin) dataDir = '%APPDATA%\\Bitcoin\\';
   if (isMac) dataDir = process.env.HOME + '/Library/Application Support/Bitcoin/';
-  if (isLinux) dataDir = process.env.HOME + '/.AuroraCoin/';
+  if (isLinux) dataDir = process.env.HOME + '/.smileycoin/';
 }
-dataDir += network === 'testnet' ? 'testnet3' : '';
+// dataDir += network === 'testnet' ? 'testnet3' : '';
 
 var safeConfirmations = process.env.INSIGHT_SAFE_CONFIRMATIONS || 6;
 var ignoreCache = process.env.INSIGHT_IGNORE_CACHE || 0;
@@ -68,12 +68,12 @@ var ignoreCache = process.env.INSIGHT_IGNORE_CACHE || 0;
 
 var bitcoindConf = {
   protocol: process.env.BITCOIND_PROTO || 'http',
-  user: process.env.BITCOIND_USER || 'user',
-  pass: process.env.BITCOIND_PASS || 'pass',
-  host: process.env.BITCOIND_HOST || '127.0.0.1',
-  port: process.env.BITCOIND_PORT || b_port,
-  p2pPort: process.env.BITCOIND_P2P_PORT || p2p_port,
-  p2pHost: process.env.BITCOIND_P2P_HOST || process.env.BITCOIND_HOST || '127.0.0.1',
+  user: 'bitcoin',
+  pass: 'local321',
+  host: '127.0.0.1',
+  port:  b_port,
+  p2pPort: p2p_port,
+  p2pHost: '127.0.0.1',
   dataDir: dataDir,
   // DO NOT CHANGE THIS!
   disableAgent: true
