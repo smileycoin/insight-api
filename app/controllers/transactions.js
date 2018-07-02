@@ -76,6 +76,42 @@ var getTransaction = function(txid, cb) {
   });
 };
 
+exports.multishow = function(req, res) {
+  // Retrieve array of transaction hashes
+  var txids = []
+  try {
+    var txidsStrs = req.param('txids');
+    var s = txidsStrs.split(',');
+    if (s.length === 0) return as;
+    for (var i = 0; i < s.length; i++) {
+      var a = s[i];
+      txids.push(a);
+    }
+  } catch (e) {
+    common.handleErrors({
+      message: 'Invalid address:' + e.message,
+      code: 1
+    }, res);
+  }
+
+  if(txids) {
+    var txinfos = [];
+    var tx;
+
+    async.each(txids, function(txid, callback) {
+      tDb.fromIdWithInfo(txid, function(err, tx) {
+        if (err || ! tx)
+          return common.handleErrors(err, res);
+        else {
+          txinfos.push(tx.info);
+        }
+        callback();
+      });
+    }, function() {
+      res.jsonp(txinfos);
+    })
+  }
+}
 
 /**
  * List of transaction
