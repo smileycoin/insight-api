@@ -11,14 +11,10 @@ var bdb = new BlockDb();
 
 exports.getServiceAddresses = function(req, res, next) {
     bdb.getServiceAddresses(function(err, sa) {
-        console.log("-----------------------");
-        console.log(sa);
-        console.log(err);
         if (err) {
             common.handleErrors(err, res, next);
         } else {
-            res.jsonp(sa.result); // skilar alltaf bara Netflix og serv s.s 2 addressum.. vantar fleiri
+            res.jsonp(sa.result);
         }
-        console.log("-----------------------");
     });
 };
