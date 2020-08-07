@@ -59,7 +59,7 @@
     "base58-native": "0.1.2",
     "bignum": "0.10.0",
     "bitauth": "0.1.1",
-    "bitcore": "gummz/bitcore#testnet",
+    "bitcore": "git://github.com/smileycoin/bitcore.git",
     "bufferput": "git://github.com/bitpay/node-bufferput.git",
     "buffertools": "2.1.3",
     "commander": "2.3.0",
