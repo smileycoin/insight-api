@@ -60,16 +60,16 @@ var ignoreCache = process.env.INSIGHT_IGNORE_CACHE || 0;
 
 
 var bitcoindConf = {
-    protocol: process.env.BITCOIND_PROTO || 'http',
-    user: process.env.BITCOIND_USER || 'smileycoinrpc',
-    pass: process.env.BITCOIND_PASS || '5jdW1qBQLbVznUYj9JRdcpwxcDptQuLSfSr4r3MigKr4',
-    host: process.env.BITCOIND_HOST || '127.0.0.1',
-    port: process.env.BITCOIND_PORT || b_port,
-    p2pPort: process.env.BITCOIND_P2P_PORT || p2p_port,
-    p2pHost: process.env.BITCOIND_P2P_HOST || process.env.BITCOIND_HOST || '127.0.0.1',
-    dataDir: dataDir,
-    // DO NOT CHANGE THIS!
-    disableAgent: true
+  protocol: process.env.BITCOIND_PROTO || 'http',
+  user: process.env.BITCOIND_USER || 'user',
+  pass: process.env.BITCOIND_PASS || '',
+  host: process.env.BITCOIND_HOST || '127.0.0.1',
+  port: process.env.BITCOIND_PORT || b_port,
+  p2pPort: process.env.BITCOIND_P2P_PORT || p2p_port,
+  p2pHost: process.env.BITCOIND_P2P_HOST || process.env.BITCOIND_HOST || '127.0.0.1',
+  dataDir: dataDir,
+  // DO NOT CHANGE THIS!
+  disableAgent: true
 };
 
 var enableMonitor = process.env.ENABLE_MONITOR === 'true';
