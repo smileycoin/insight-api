@@ -9,52 +9,48 @@ var timestamp = +new Date(),
 
 exports.index = function(req, res) {
 
-  var _xhr = function() {
-    if (typeof XMLHttpRequest !== 'undefined' && XMLHttpRequest !== null) {
-      return new XMLHttpRequest();
-    } else if (typeof require !== 'undefined' && require !== null) {
-      var XMLhttprequest = require('xmlhttprequest').XMLHttpRequest;
-      return new XMLhttprequest();
-    }
-  };
-
-  var _request = function(url, cb) {
-    var request;
-    request = _xhr();
-    request.open('GET', url, true);
-    request.onreadystatechange = function() {
-      if (request.readyState === 4) {
-        if (request.status === 200) {
-          return cb(false, request.responseText);
+    var _xhr = function() {
+        if (typeof XMLHttpRequest !== 'undefined' && XMLHttpRequest !== null) {
+            return new XMLHttpRequest();
+        } else if (typeof require !== 'undefined' && require !== null) {
+            var XMLhttprequest = require('xmlhttprequest').XMLHttpRequest;
+            return new XMLhttprequest();
         }
-
-        return cb(true, {
-          status: request.status,
-          message: 'Request error'
-        });
-      }
     };
 
-    return request.send(null);
-  };
+    var _request = function(url, cb) {
+        var request;
+        request = _xhr();
+        request.open('GET', url, true);
+        request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    return cb(false, request.responseText);
+                }
 
-  // Init
-  var currentTime = +new Date();
-  if (bitstampRate === 0 || currentTime >= (timestamp + delay)) {
-    timestamp = currentTime;
+                return cb(true, {
+                    status: request.status,
+                    message: 'Request error'
+                });
+            }
+        };
 
-    _request('https://www.cryptonator.com/api/ticker/aur-usd', function(err, data) {
-      if (!err) bitstampRate = parseFloat(JSON.parse(data)['ticker']['price']);
+        return request.send(null);
+    };
 
-      res.jsonp({
-        status: 200,
-        data: { bitstamp: bitstampRate }
-      });
-    });
-  } else {
-    res.jsonp({
-      status: 200,
-      data: { bitstamp: bitstampRate }
-    });
-  }
+    // Init
+    var currentTime = +new Date();
+    if (bitstampRate === 0 || currentTime >= (timestamp + delay)) {
+        timestamp = currentTime;
+        bitstampRate = 1.337;
+        res.jsonp({
+            status: 200,
+            data: { bitstamp: bitstampRate }
+        });
+    } else {
+        res.jsonp({
+            status: 200,
+            data: { bitstamp: bitstampRate }
+        });
+    }
 };

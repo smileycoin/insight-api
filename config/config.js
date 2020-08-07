@@ -53,7 +53,7 @@ if (!dataDir) {
     if (isMac) dataDir = process.env.HOME + '/Library/Application Support/Smileycoin/';
     if (isLinux) dataDir = process.env.HOME + '/.smileycoin/';
 }
-// dataDir += network === 'testnet' ? 'testnet3' : '';
+dataDir += network === 'testnet' ? 'testnet' : '';
 
 var safeConfirmations = process.env.INSIGHT_SAFE_CONFIRMATIONS || 6;
 var ignoreCache = process.env.INSIGHT_IGNORE_CACHE || 0;
