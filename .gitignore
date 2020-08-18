@@ -13,6 +13,7 @@ pids
 logs
 results
 build
+.env.prod
 .env.loc
 .env
 node_modules

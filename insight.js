@@ -162,7 +162,5 @@ server.listen(config.port, function() {
   logger.info('insight server listening on port %d in %s mode', server.address().port, process.env.NODE_ENV);
 });
 
-expressApp.set('host','0.0.0.0')
-
 //expose app
 exports = module.exports = expressApp;
