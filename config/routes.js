@@ -7,86 +7,91 @@ var config = require('./config');
 
 module.exports = function(app) {
 
-  var apiPrefix = config.apiPrefix;
+    var apiPrefix = config.apiPrefix;
 
-  //Block routes
-  var blocks = require('../app/controllers/blocks');
-  app.get(apiPrefix + '/blocks', blocks.list);
+    //Block routes
+    var blocks = require('../app/controllers/blocks');
+    app.get(apiPrefix + '/blocks', blocks.list);
 
 
-  app.get(apiPrefix + '/block/:blockHash', blocks.show);
-  app.param('blockHash', blocks.block);
 
-  app.get(apiPrefix + '/block-index/:height', blocks.blockindex);
-  app.param('height', blocks.blockindex);
+    app.get(apiPrefix + '/block/:blockHash', blocks.show);
+    app.param('blockHash', blocks.block);
 
-  // Transaction routes
-  var transactions = require('../app/controllers/transactions');
-  app.get(apiPrefix + '/tx/:txid', transactions.show);
-  app.get(apiPrefix + '/txs/:txids', transactions.multishow);
-  app.param('txid', transactions.transaction);
-  app.get(apiPrefix + '/txs', transactions.list);
-  app.post(apiPrefix + '/tx/send', transactions.send);
+    app.get(apiPrefix + '/block-index/:height', blocks.blockindex);
+    app.param('height', blocks.blockindex);
 
-  // Address routes
-  var addresses = require('../app/controllers/addresses');
-  app.get(apiPrefix + '/addr/:addr', addresses.show);
-  app.get(apiPrefix + '/addr/:addr/utxo', addresses.utxo);
-  app.get(apiPrefix + '/addrs/:addrs', addresses.multishow);
-  app.get(apiPrefix + '/addrs/:addrs/utxo', addresses.multiutxo);
-  app.post(apiPrefix + '/addrs/utxo', addresses.multiutxo);
-  app.get(apiPrefix + '/addrs/:addrs/txs', addresses.multitxs);
-  app.post(apiPrefix + '/addrs/txs', addresses.multitxs);
+    // Service Addresses
+    var misc = require('../app/controllers/misc');
+    app.get(apiPrefix + '/getserviceaddresses', misc.getServiceAddresses);
 
-  // Address property routes
-  app.get(apiPrefix + '/addr/:addr/balance', addresses.balance);
-  app.get(apiPrefix + '/addr/:addr/totalReceived', addresses.totalReceived);
-  app.get(apiPrefix + '/addr/:addr/totalSent', addresses.totalSent);
-  app.get(apiPrefix + '/addr/:addr/unconfirmedBalance', addresses.unconfirmedBalance);
+    // Transaction routes
+    var transactions = require('../app/controllers/transactions');
+    app.get(apiPrefix + '/tx/:txid', transactions.show);
+    app.get(apiPrefix + '/txs/:txids', transactions.multishow);
+    app.param('txid', transactions.transaction);
+    app.get(apiPrefix + '/txs', transactions.list);
+    app.post(apiPrefix + '/tx/send', transactions.send);
 
-  // Status route
-  var st = require('../app/controllers/status');
-  app.get(apiPrefix + '/status', st.show);
+    // Address routes
+    var addresses = require('../app/controllers/addresses');
+    app.get(apiPrefix + '/addr/:addr', addresses.show);
+    app.get(apiPrefix + '/addr/:addr/utxo', addresses.utxo);
+    app.get(apiPrefix + '/addrs/:addrs', addresses.multishow);
+    app.get(apiPrefix + '/addrs/:addrs/utxo', addresses.multiutxo);
+    app.post(apiPrefix + '/addrs/utxo', addresses.multiutxo);
+    app.get(apiPrefix + '/addrs/:addrs/txs', addresses.multitxs);
+    app.post(apiPrefix + '/addrs/txs', addresses.multitxs);
 
-  app.get(apiPrefix + '/sync', st.sync);
-  app.get(apiPrefix + '/peer', st.peer);
+    // Address property routes
+    app.get(apiPrefix + '/addr/:addr/balance', addresses.balance);
+    app.get(apiPrefix + '/addr/:addr/totalReceived', addresses.totalReceived);
+    app.get(apiPrefix + '/addr/:addr/totalSent', addresses.totalSent);
+    app.get(apiPrefix + '/addr/:addr/unconfirmedBalance', addresses.unconfirmedBalance);
 
-  // Currency
-  var currency = require('../app/controllers/currency');
-  app.get(apiPrefix + '/currency', currency.index);
+    // Status route
+    var st = require('../app/controllers/status');
+    app.get(apiPrefix + '/status', st.show);
 
-  // Email store plugin
-  if (config.enableEmailstore) {
-    var emailPlugin = require('../plugins/emailstore');
-    app.post(apiPrefix + '/email/save', emailPlugin.save);
-    app.get(apiPrefix + '/email/retrieve', emailPlugin.retrieve);
-    app.post(apiPrefix + '/email/change_passphrase', emailPlugin.changePassphrase);
+    app.get(apiPrefix + '/sync', st.sync);
+    app.get(apiPrefix + '/peer', st.peer);
 
-    app.post(apiPrefix + '/email/validate', emailPlugin.validate);
-    app.get(apiPrefix + '/email/validate', emailPlugin.validate);
+    // Currency
+    var currency = require('../app/controllers/currency');
+    app.get(apiPrefix + '/currency', currency.index);
 
-    app.post(apiPrefix + '/email/register', emailPlugin.oldSave);
-    app.get(apiPrefix + '/email/retrieve/:email', emailPlugin.oldRetrieve);
+    // Email store plugin
+    if (config.enableEmailstore) {
+        var emailPlugin = require('../plugins/emailstore');
+        app.post(apiPrefix + '/email/save', emailPlugin.save);
+        app.get(apiPrefix + '/email/retrieve', emailPlugin.retrieve);
+        app.post(apiPrefix + '/email/change_passphrase', emailPlugin.changePassphrase);
 
-    app.post(apiPrefix + '/email/delete/profile', emailPlugin.eraseProfile);
-    app.get(apiPrefix + '/email/delete/item', emailPlugin.erase);
+        app.post(apiPrefix + '/email/validate', emailPlugin.validate);
+        app.get(apiPrefix + '/email/validate', emailPlugin.validate);
 
-    app.get(apiPrefix + '/email/resend_email', emailPlugin.resendEmail);
-  }
+        app.post(apiPrefix + '/email/register', emailPlugin.oldSave);
+        app.get(apiPrefix + '/email/retrieve/:email', emailPlugin.oldRetrieve);
 
-  // Currency rates plugin
-  if (config.enableCurrencyRates) {
-    var currencyRatesPlugin = require('../plugins/currencyrates');
-    app.get(apiPrefix + '/rates/:code', currencyRatesPlugin.getRate);
-  }
+        app.post(apiPrefix + '/email/delete/profile', emailPlugin.eraseProfile);
+        app.get(apiPrefix + '/email/delete/item', emailPlugin.erase);
 
-  // Address routes
-  var messages = require('../app/controllers/messages');
-  app.get(apiPrefix + '/messages/verify', messages.verify);
-  app.post(apiPrefix + '/messages/verify', messages.verify);
+        app.get(apiPrefix + '/email/resend_email', emailPlugin.resendEmail);
+    }
 
-  //Home route
-  var index = require('../app/controllers/index');
-  app.get(apiPrefix + '/version', index.version);
-  app.get('*', index.render);
+    // Currency rates plugin
+    if (config.enableCurrencyRates) {
+        var currencyRatesPlugin = require('../plugins/currencyrates');
+        app.get(apiPrefix + '/rates/:code', currencyRatesPlugin.getRate);
+    }
+
+    // Address routes
+    var messages = require('../app/controllers/messages');
+    app.get(apiPrefix + '/messages/verify', messages.verify);
+    app.post(apiPrefix + '/messages/verify', messages.verify);
+
+    //Home route
+    var index = require('../app/controllers/index');
+    app.get(apiPrefix + '/version', index.version);
+    app.get('*', index.render);
 };
