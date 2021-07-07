@@ -20,9 +20,9 @@ exports.getServiceAddresses = function(req, res, next) {
 };
 
 
-exports.getNpoList = function(req, res, next) {
-    if( req.params.npolistid || !(req.params.npolistid === "") ){
-    	bdb.getNpoList(req.params.npolistid, function(err, result){
+exports.getOrgList = function(req, res, next) {
+    if( req.params.orglistid || !(req.params.orglistid === "") ){
+    	bdb.getOrgList(req.params.orglistid, function(err, result){
 	    if(err){
 		console.log("printing out error");
 		console.log(err);
@@ -40,4 +40,15 @@ exports.getNpoList = function(req, res, next) {
 
 }
 
+exports.getAllOrgLists = function(req, res, next) {
+    bdb.getAllOrgLists(
+    	function(err, result){
+		if(err){
+			return common.handleErrors(err, res);
+		}
+		else {
+			res.jsonp(result.result);
+		}
+	});
+}
 

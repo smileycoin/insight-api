@@ -22,7 +22,8 @@ module.exports = function(app) {
     // Service Addresses
     var misc = require('../app/controllers/misc');
     app.get(apiPrefix + '/getserviceaddresses', misc.getServiceAddresses);
-    app.get(apiPrefix + '/getnpolist/:npolistid', misc.getNpoList);
+    app.get(apiPrefix + '/getorglist/:orglistid', misc.getOrgList);
+    app.get(apiPrefix + '/getallorglists', misc.getAllOrgLists);
 
     // Transaction routes
     var transactions = require('../app/controllers/transactions');
