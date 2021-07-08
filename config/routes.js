@@ -13,8 +13,6 @@ module.exports = function(app) {
     var blocks = require('../app/controllers/blocks');
     app.get(apiPrefix + '/blocks', blocks.list);
 
-
-
     app.get(apiPrefix + '/block/:blockHash', blocks.show);
     app.param('blockHash', blocks.block);
 
@@ -24,6 +22,8 @@ module.exports = function(app) {
     // Service Addresses
     var misc = require('../app/controllers/misc');
     app.get(apiPrefix + '/getserviceaddresses', misc.getServiceAddresses);
+    app.get(apiPrefix + '/getorglist/:orglistid', misc.getOrgList);
+    app.get(apiPrefix + '/getallorglists', misc.getAllOrgLists);
 
     // Transaction routes
     var transactions = require('../app/controllers/transactions');
