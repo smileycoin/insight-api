@@ -24,13 +24,9 @@ exports.getOrgList = function(req, res, next) {
     if( req.params.orglistid || !(req.params.orglistid === "") ){
     	bdb.getOrgList(req.params.orglistid, function(err, result){
 	    if(err){
-		console.log("printing out error");
-		console.log(err);
 		return common.handleErrors(err, res);
 	    } 
 	    else {
-		console.log("printing out result");
-		console.log(result);
 		res.jsonp(result.result);
 	    }
 	});
@@ -49,6 +45,31 @@ exports.getAllOrgLists = function(req, res, next) {
 		else {
 			res.jsonp(result.result);
 		}
+	});
+}
+
+exports.getCouponList = function(req, res, next) {
+	if(req.params.couponlistid || !req.params.couponlistid === ""){
+		bdb.getCouponList(req.params.couponlistid, function(err, result){
+			if(err){
+				return common.handleErrors(err, res);
+			} else {
+				res.jsonp(result.result);
+			}
+		});	
+	} else {
+		res.send("No address provided");
+	}
+}
+
+exports.getAllCouponLists = function(req, res, next) {
+	bdb.getAllCouponLists(
+		function(err, result) {
+			if(err){
+				return common.handleErrors(err, res);
+			} else {
+				res.jsonp(result.result);
+			}
 	});
 }
 
