@@ -24,6 +24,8 @@ module.exports = function(app) {
     app.get(apiPrefix + '/getserviceaddresses', misc.getServiceAddresses);
     app.get(apiPrefix + '/getorglist/:orglistid', misc.getOrgList);
     app.get(apiPrefix + '/getallorglists', misc.getAllOrgLists);
+    app.get(apiPrefix + '/getcouponlist/:couponlistid', misc.getCouponList);
+    app.get(apiPrefix + '/getallcouponlists', misc.getAllCouponLists);
 
     // Transaction routes
     var transactions = require('../app/controllers/transactions');
